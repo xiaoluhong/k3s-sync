@@ -1,0 +1,19 @@
+language: python
+os:
+  - linux
+python:
+  - "2.7"
+dist: xenial
+before_script:
+  # Set up git user name and tag this commit
+  - git config --global user.name "xiaoluhong"
+  - git config --global user.email "xiaoluhong@rancher.com"
+  - git config --global push.default simple
+
+script:
+  - bash -x start.sh
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install jq curl gettext-base sed 
+  - chmod +x start.sh 
