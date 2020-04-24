@@ -11,9 +11,9 @@ before_script:
   - git config --global push.default simple
 
 script:
-  - bash -x start.sh
+  - bash start.sh
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install jq curl gettext-base sed 
-  - chmod +x start.sh 
+  - sudo apt-get update >> /dev/null
+  - sudo apt-get install jq curl gettext-base sed >> /dev/null
+  - chmod +x start.sh >> /dev/null
