@@ -29,6 +29,7 @@ k3s()
         do
             mkdir -p download/`echo ${new_ver} | sed 's/+/-/g'`
             cd download/`echo ${new_ver} | sed 's/+/-/g'`
+            echo "下载 ${url}"
             wget -q ${url}
             cd ${dir}
         done
