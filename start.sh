@@ -15,7 +15,7 @@ k3s()
     dir=$(/bin/pwd)
     repo=rancher/k3s
     echo '获取前三个releases版本'
-    k3s_new_ver=$( curl -u ${token} -LSs https://api.github.com/repos/${repo}/releases | jq -r .[].tag_name | grep -v -E 'rc|alpha' | head -n 5 )
+    k3s_new_ver=$( curl -LSs https://api.github.com/repos/$repo/git/refs/tags | jq -r .[].ref | awk -F/ '{print $3}'  | grep -v -E 'rc|alpha' |tail -n 8 )
 
     echo '通过releases获取文件下载链接'
     for new_ver in ${k3s_new_ver};
@@ -50,3 +50,5 @@ k3s()
 }
 
 k3s
+
+cat /home/travis/build/xiaoluhong/k3s-sync/ossutil.log
