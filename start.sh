@@ -8,7 +8,7 @@ loglevel=${loglevel:-debug}
 
 auth_command="--loglevel=$loglevel -i $access_key -k $access_key_secret -e oss-cn-shenzhen.aliyuncs.com"
 
-wget http://gosspublic.alicdn.com/ossutil/1.6.16/ossutil64 -O ossutil
+wget -q -c http://gosspublic.alicdn.com/ossutil/1.6.16/ossutil64 -O ossutil
 
 chmod +x ./ossutil
 
@@ -16,10 +16,13 @@ k3s()
 {
     dir=$(/bin/pwd)
     repo=rancher/k3s
-    echo '获取前三个releases版本'
-    k3s_new_ver=$( curl -LSs https://api.github.com/repos/$repo/git/refs/tags | jq -r .[].ref | awk -F/ '{print $3}'  | grep -v -E 'rc|alpha' |tail -n 8 )
 
-    echo '通过releases获取文件下载链接'
+    echo '获取前三个 releases 版本'
+
+    k3s_new_ver=$( curl -LSs https://api.github.com/repos/$repo/git/refs/tags | jq -r .[].ref | awk -F/ '{print $3}'  | grep -v -E 'rc|alpha' | tail -n 8 )
+
+    echo '通过 releases 获取文件下载链接'
+
     for new_ver in ${k3s_new_ver};
     do
         # 创建oss目录
@@ -37,13 +40,16 @@ k3s()
         done
     done
 
-   echo '上传文件到oss'
+   echo '上传文件到 oss'
+
     ./ossutil ${auth_command} cp -r download oss://${bucket_name}/download -u -f
 
-    echo '获取oss中已有版本'
+    echo '获取 oss 中已有版本'
+
     k3s_old_ver=$( ./ossutil ${auth_command} ls oss://${bucket_name}/download/ -d -s | grep "oss://${bucket_name}/download/v" | awk -F'/' '{print $5}' )
 
-    echo '用oss中已有的版本号与获取的新版本号做匹配，不匹配的则删除'
+    echo '用 oss 中已有的版本号与获取的新版本号做匹配，不匹配的则删除'
+
     for old_ver in ${k3s_old_ver};
     do
         if ! echo ${k3s_new_ver} | sed 's/+/-/g' | grep -w ${old_ver} > /dev/null; then
