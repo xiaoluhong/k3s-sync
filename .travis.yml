@@ -15,5 +15,5 @@ script:
 
 before_install:
   - sudo apt-get update >> /dev/null
-  - sudo apt-get install jq curl gettext-base sed >> /dev/null
+  - sudo apt-get install jq curl gettext-base sed wget >> /dev/null
   - chmod +x start.sh >> /dev/null

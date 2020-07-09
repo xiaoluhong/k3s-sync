@@ -8,6 +8,8 @@ loglevel=${loglevel:-debug}
 
 auth_command="--loglevel=$loglevel -i $access_key -k $access_key_secret -e oss-cn-shenzhen.aliyuncs.com"
 
+wget http://gosspublic.alicdn.com/ossutil/1.6.16/ossutil64 -O ossutil
+
 chmod +x ./ossutil
 
 k3s()
