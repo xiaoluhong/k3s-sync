@@ -59,5 +59,3 @@ k3s()
 }
 
 k3s
-
-cat /home/travis/build/xiaoluhong/k3s-sync/ossutil.log
